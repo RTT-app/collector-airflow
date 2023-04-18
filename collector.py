@@ -1,8 +1,11 @@
 import praw
+import time
+import pandas as pd
 from config import (
     CLIENT_ID, 
     SECRET_TOKEN,
-    USER_AGENT
+    USER_AGENT,
+    SUBREDDIT
 )
 
 # create a Reddit instance using the praw library and your API credentials
@@ -13,19 +16,45 @@ reddit = praw.Reddit(
         )
 
 # specify the subreddit you want to retrieve posts from
-subreddit_name = 'politics'
-subreddit = reddit.subreddit(subreddit_name)
+subreddit = reddit.subreddit(SUBREDDIT)
 
 # retrieve the top 10 hot posts from the subreddit
-top_posts = subreddit.new(limit=1)
-#print(type(list(top_posts)[0]))
+top_posts = subreddit.new(limit=10) # jogar isso pra dentro do while
+
+# data
+data = {
+        "title":[],
+        "self_text":[],
+        "comment":[]
+        }
+"""
+        "upvote":[],
+        "downvote":[],
+        "like":[],
+        "score":[]
+        }
+"""
 
 # loop through each post and print its title and score
-for post in top_posts:
-    print(f"Title: {post.title}")
-    print()
-    print("Comments:")
-    for comment in post.comments:
-        print("     "+comment.body)
-        print()
+minutos = 1
+up = True
+past = time.time()
+print(past)
+print(type(past))
+while up:
+    for post in top_posts:
+        for comment in post.comments:
+            try:
+                data["title"].append(post.title)
+                data["self_text"].append(post.selftext)
+                data["comment"].append(comment.body)
+            except AttributeError:
+                pass
     
+    actual = time.time() - past
+    if actual >= (minutos * 60):
+        up = False
+
+#print(data)
+data = pd.DataFrame.from_dict(data)
+data.to_csv('exp.csv')
