@@ -1,6 +1,7 @@
 import praw
 import time
 import pandas as pd
+from utils import update_search 
 from config import (
     CLIENT_ID, 
     SECRET_TOKEN,
@@ -39,15 +40,15 @@ data = {
 minutos = 1
 up = True
 past = time.time()
-print(past)
-print(type(past))
 while up:
     for post in top_posts:
         for comment in post.comments:
             try:
-                data["title"].append(post.title)
-                data["self_text"].append(post.selftext)
-                data["comment"].append(comment.body)
+                exists = update_search(data["comment"], comment.body) 
+                if not exists:
+                    data["title"].append(post.title)
+                    data["self_text"].append(post.selftext)
+                    data["comment"].append(comment.body)
             except AttributeError:
                 pass
     

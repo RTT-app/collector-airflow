@@ -1,6 +1,6 @@
 {
-    "client_id": "client-id",
-    "secret_token": "secret-token",
-    "user_agent": "reddit-pipeline:v1.0 (by /u/user_exp)",
-    "subreddit": "subreddit "
+    "client_id": "V3MUjFe6R2zrXW_wfKNLZA",
+    "secret_token": "i0hNio4FGpdVFkQz8XfWcM51VHvFWg",
+    "user_agent": "reddit-pipeline:v1.0 (by /u/jordaoA)",
+    "subreddit": "politics"
 }
