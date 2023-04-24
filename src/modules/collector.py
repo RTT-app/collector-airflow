@@ -2,7 +2,7 @@ import os
 import time
 import praw
 import pandas as pd
-from src.utils import update_search 
+from utils import update_search
 
 class Collector():
 
@@ -18,7 +18,7 @@ class Collector():
         # specify the subreddit you want to retrieve posts from
         self.subreddit_ = self.client.subreddit(subreddit_name)
 
-    def get_data(self, post_amount, experiment_time):
+    def _get_data(self, post_amount, time_range):
         # retrieve the top 10 hot posts from the subreddit
         top_posts = self.subreddit_.new(limit=post_amount) # jogar isso pra dentro do while
 
@@ -29,7 +29,7 @@ class Collector():
                 }
 
         # loop through each post and print its title and score
-        minutos = experiment_time
+        minutes = time_range
         up = True
         past = time.time()
 
@@ -46,11 +46,15 @@ class Collector():
                         pass
             
             actual = time.time() - past
-            if actual >= (minutos * 60):
+            if actual >= (minutes * 60):
                 up = False
         self.data = data
     
-    def save_data(self):
+    def _save_data(self):
         os.system("mkdir ../data")
         data = pd.DataFrame.from_dict(self.data)
-        data.to_csv('../data/exp.csv')
+        data.to_csv('./data/exp.csv')
+
+    def run(self, post_amount = 100, time_range = 10):
+        self._get_data(post_amount,time_range)
+        self._save_data()

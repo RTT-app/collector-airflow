@@ -1,7 +1,7 @@
 import json
 
 # read config json file
-config = open('./config.json', 'r+')
+config = open('src/config/config.json', 'r+')
 config_obj = json.load(config)
 
 # tokens

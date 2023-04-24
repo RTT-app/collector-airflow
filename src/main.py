@@ -1,4 +1,4 @@
-#from src.modules.collector import 
+from modules.collector import Collector
 from config.config import (
     CLIENT_ID, 
     SECRET_TOKEN,
@@ -9,7 +9,8 @@ from config.config import (
 class RedditCollector():
 
     def run(self):
-        pass
+        collector = Collector(CLIENT_ID, SECRET_TOKEN, USER_AGENT, SUBREDDIT)
+        collector.run()
 
 if __name__ == "__main__":
     lyric = RedditCollector()
