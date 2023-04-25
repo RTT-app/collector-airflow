@@ -25,7 +25,8 @@ class Collector():
         data = {
                 "title":[],
                 "self_text":[],
-                "comment":[]
+                "comment":[],
+                "score":[]
                 }
 
         # loop through each post and print its title and score
@@ -42,6 +43,7 @@ class Collector():
                             data["title"].append(post.title)
                             data["self_text"].append(post.selftext)
                             data["comment"].append(comment.body)
+                            data["score"].append(comment.score)
                     except AttributeError:
                         pass
             
@@ -51,7 +53,7 @@ class Collector():
         self.data = data
     
     def _save_data(self):
-        os.system("mkdir ../data")
+        os.system("mkdir ./data")
         data = pd.DataFrame.from_dict(self.data)
         data.to_csv('./data/exp.csv')
 

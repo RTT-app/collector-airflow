@@ -1,5 +1,6 @@
 src/__pycache__
 config/__pycache__
-data/*
+config/config.json
+data
 exp.csv
 venv
