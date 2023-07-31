@@ -1,11 +1,15 @@
-import json
+from dotenv import load_dotenv, find_dotenv
+from pathlib import Path
+import os
 
-# read config json file
-config = open('src/config/config.json', 'r+')
-config_obj = json.load(config)
+dotenv_path = find_dotenv(filename='.env')
 
-# tokens
-CLIENT_ID = config_obj.get("client_id")
-SECRET_TOKEN = config_obj.get("secret_token")
-USER_AGENT = config_obj.get("user_agent")
-SUBREDDIT = config_obj.get("subreddit")
+if not Path(dotenv_path).exists():
+    os.system("touch .env")
+
+load_dotenv(dotenv_path)
+
+CLIENT_ID = os.getenv('CLIENT_ID')
+SECRET_TOKEN = os.getenv('SECRET_TOKEN')
+USER_AGENT = os.getenv('USER_AGENT')
+SUBREDDIT = os.getenv('SUBREDDIT')
