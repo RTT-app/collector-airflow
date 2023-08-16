@@ -1,0 +1,1 @@
+from .register import add_post
