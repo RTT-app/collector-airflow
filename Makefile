@@ -6,21 +6,8 @@ docker-up:
 	docker-compose up airflow-init
 	docker-compose up -d
 
-docker-down: 
+docker-down:
 	docker-compose down --volumes --rmi all
-
-install-poetry: docker-up
-	@if ! command -v poetry &>/dev/null; then \
-		echo "Installing poetry..."; \
-		pip3 install poetry; \
-	fi
-
-venv: install-poetry
-	@echo "Creating the venv..."
-	@poetry install
-	$(PIP) install --upgrade pip
-	@echo "Starting the virtual environment..."
-	@poetry shell
 
 clean: docker-down
 	@echo "removing recursively: *.py[cod]"
