@@ -13,31 +13,40 @@ def reddit_etl():
         """
         #### Load task
         """
-        extract_url = 'http://localhost:5000/extract'
-        id_ = requests.post(extract_url)
+        extract_url = 'http://172.20.0.7:5000/extract'
+        response = requests.post(extract_url)
+        id_ = response.json()['id']
         
         return id_
+    
 
     @task()
-    def load(id_):
+    def transfrom(id):
         """
         #### Load task
         """
-        transform_url = 'http://localhost:5000/transform'
-        id_ = requests.put(transform_url)
+        extract_url = f'http://172.20.0.7:5000/transform/{id}'
+        response = requests.get(extract_url)
+        posts = response.json()
         
-        return id_
+        return posts
+
 
     @task()
-    def load():
-        """
-        #### Load task
-        """
-        get_transformed_data_url = 'http://localhost:5000/get-transformed-data/<string:id>'
-        load_url = 'http://localhost:5001/get-transformed-data/<string:id>'
-
-        id_ = requests.get(transform_url)
-
-    load()
+    def load(posts):
+        load_url = 'http://172.19.0.5:5001/add-post'
+        
+        for post in range(len(posts['posts']['comment'])):
+            comment = {
+                       "comment": posts['posts']['comment'][post],
+                       "score": posts['posts']['score'][post],
+                       "self_text": posts['posts']['self_text'][post],
+                       "title": posts['posts']['title'][post]
+                       }
+            requests.post(load_url, json=comment)
+    
+    id_ = extract()
+    data = transfrom(id_)
+    load(data)
 
 etl_pipeline = reddit_etl()
