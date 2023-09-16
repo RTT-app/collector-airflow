@@ -152,7 +152,7 @@ services:
         condition: service_completed_successfully
     networks:
       - airflow_network
-      - bd-interface_db-network
+      - db-api_db-network
       - collector-api_collector-network
 
   airflow-worker:
@@ -179,7 +179,7 @@ services:
         condition: service_completed_successfully
     networks:
       - airflow_network
-      - bd-interface_db-network
+      - db-api_db-network
       - collector-api_collector-network
 
   airflow-triggerer:
@@ -323,7 +323,7 @@ networks:
   airflow_network:
     driver: bridge
     
-  bd-interface_db-network:
+  db-api_db-network:
     external: true
     
   collector-api_collector-network:
