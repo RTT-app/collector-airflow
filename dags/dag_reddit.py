@@ -1,13 +1,13 @@
 import pendulum
 import requests
 from airflow.decorators import dag, task
+from datetime import datetime 
 
-now = pendulum.now()
-
-@dag(start_date=now, 
+@dag(start_date=datetime(2023,10,7), 
      schedule='@hourly',
      catchup=False, 
-     tags=["Reddit-ETL"]
+     tags=["Reddit-ETL"],
+     is_paused_upon_creation=False
      )
 def reddit_etl():
     @task()
